@@ -1,0 +1,23 @@
+[project]
+name = "oopsc"
+dynamic = ["version"]
+dependencies = [
+    "scanpy"
+]
+authors = [
+    {name="Oceane Saïbou"},
+    {name="Samuel Ortion"}
+]
+description = "Yet an other single cell analysis tool"
+readme = "README.md"
+license = {text = "GPL-3.0-or-later"}
+keywords = ["single cell", "visualization"]
+[project.urls]
+Repository = "https://github.com/UncleSamulus/geniomhe-oop-sc"
+# Documentation = "https://UncleSamulus.github.io/geniomhe-oop-sc"
+[build-system]
+requires=["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}

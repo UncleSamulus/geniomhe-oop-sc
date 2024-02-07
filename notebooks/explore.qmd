@@ -1,0 +1,93 @@
+---
+date: 2024-01-22
+author: Samuel Ortion
+---
+
+```{python}
+%load_ext autoreload
+%autoreload 2
+```
+
+```{python}
+import anndata as ad
+import matplotlib.pyplot as plt
+import numpy as np
+import pooch
+import scanpy as sc
+```
+
+Download it.
+
+```{python}
+EXAMPLE_DATA = pooch.create(
+    path=pooch.os_cache("scverse_tutorials"),
+    base_url="doi:10.6084/m9.figshare.22716739.v1/",
+)
+EXAMPLE_DATA.load_registry_from_doi()
+```
+
+Read it.
+
+```{python}
+samples = {
+    "s1d1": "s1d1_filtered_feature_bc_matrix.h5",
+    "s1d3": "s1d3_filtered_feature_bc_matrix.h5",
+}
+adatas = {}
+
+for sample_id, filename in samples.items():
+    path = EXAMPLE_DATA.fetch(filename)
+    sample_adata = sc.read_10x_h5(path)
+    sample_adata.var_names_make_unique()
+    adatas[sample_id] = sample_adata
+
+adata = ad.concat(adatas, label="sample")
+adata.obs_names_make_unique()
+```
+
+
+## Number of mitochondrial genes
+
+```{python}
+# mitochondrial genes
+adata.var["mt"] = adata.var_names.str.startswith("MT-")  # "MT-" for human, "Mt-" for mouse
+# ribosomal genes
+adata.var["ribo"] = adata.var_names.str.startswith(("RPS", "RPL"))
+# hemoglobin genes
+adata.var["hb"] = adata.var_names.str.contains("^HB[^(P)]")
+
+```
+
+
+```{python}
+adata.var["mt"].sum()
+```
+
+13 genes are mitochondrial genes.
+
+
+## Dynamic violin plot
+
+```{python}
+import hvplot.pandas
+```
+
+```{python}
+sc.pp.calculate_qc_metrics(adata, qc_vars=["mt", "ribo", "hb"], inplace=True, log1p=True)
+```
+
+```{python}
+sc.pl.violin(adata, ["n_genes_by_counts", "total_counts", "pct_counts_mt"], jitter=0.4, multi_panel=True)
+```
+
+```{python}
+import oopsc.scanpy
+```
+
+```{python}
+sc.pli.violin(adata, ["n_genes_by_counts", "total_counts", "pct_counts_mt"])
+```
+
+## References
+
+- <https://scverse-tutorials.readthedocs.io/en/latest/notebooks/anndata_getting_started.html>

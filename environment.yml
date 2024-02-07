@@ -1,0 +1,19 @@
+name: oop-sc
+channels:
+  - bioconda
+  - defaults
+  - conda-forge
+dependencies:
+  - pip
+  - pip:
+    - anndata # Pandas version of anndata requires pandas.core.index, which has been deprecated.
+    - matplotlib
+    - numpy
+    - pooch
+    - scanpy
+    - ipykernel
+    - nbclient
+    - nbformat
+    - pandas
+    - hvplot
+    
