@@ -8,16 +8,20 @@ authors = [
     {name="Oceane Saïbou"},
     {name="Samuel Ortion"}
 ]
-description = "Yet an other single cell analysis tool"
+description = "A dynamic scanpy plotting alternative"
 readme = "README.md"
-license = {text = "GPL-3.0-or-later"}
+license = "BSD-3-clause"
 keywords = ["single cell", "visualization"]
 [project.urls]
 Repository = "https://github.com/UncleSamulus/geniomhe-oop-sc"
 # Documentation = "https://UncleSamulus.github.io/geniomhe-oop-sc"
 [build-system]
-requires=["setuptools", "setuptools-scm"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
 
-[tool.setuptools]
-package-dir = {"" = "src"}
+[tool.hatch.build]
+exclude = ["oopsc/tests"]
+[tool.hatch.version]
+source = "vcs"
+[tool.hatch.build.hooks.vcs]
+version-file = "oopsc/_version.py"
