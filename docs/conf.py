@@ -50,7 +50,7 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.autosummary",
     "sphinx.ext.extlinks",
-    "matplotlib.sphinxext.plot_directive",
+    # "matplotlib.sphinxext.plot_directive",
     "sphinx_autodoc_typehints",  # needs to be after napoleon
     # "sphinx.ext.linkcode",
     "sphinx_design",

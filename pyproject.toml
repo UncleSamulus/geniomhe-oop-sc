@@ -1,9 +1,6 @@
 [project]
 name = "scanpy-plotly"
 dynamic = ["version"]
-dependencies = [
-    "scanpy"
-]
 authors = [
     {name="Oceane Saïbou"},
     {name="Samuel Ortion"}
@@ -25,3 +22,29 @@ exclude = ["oopsc/tests"]
 source = "vcs"
 [tool.hatch.build.hooks.vcs]
 version-file = "oopsc/_version.py"
+dependencies = [
+    "scanpy"
+]
+[project.optional-dependencies]
+test = [
+    "pytest"
+]
+docs = [
+    "pytz",
+    "tzdata", # avoid error on CI
+    "sphinx>=7",
+    "sphinx-book-theme>=1.1.0",
+    "sphinx-autodoc-typehints>=1.25.2",
+    "sphinx-gitref",
+    "myst-parser>=2",
+    "myst-nb>=1",
+    "sphinx-design",
+    "readthedocs-sphinx-search",
+    "sphinxext-opengraph", # for nice cards when sharing on social
+    "sphinx-copybutton",
+    "nbsphinx>=0.9",
+    "ipython>=7.20",  # for nbsphinx code highlighting
+]
+dev = [
+    "pre-commit"
+]
