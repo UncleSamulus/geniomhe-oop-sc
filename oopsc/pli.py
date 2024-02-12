@@ -1,6 +1,5 @@
 import scanpy
-import holoviews as hv
-
+import plotly
 
 class Plotter:
 
@@ -16,4 +15,7 @@ class Plotter:
         layout.opts(shared_axes=False)
         return layout
     
+    def tsne():
+        """
+        """
     

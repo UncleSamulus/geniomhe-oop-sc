@@ -1,5 +1,5 @@
 [project]
-name = "oopsc"
+name = "scanpy-plotly"
 dynamic = ["version"]
 dependencies = [
     "scanpy"
@@ -8,13 +8,13 @@ authors = [
     {name="Oceane Saïbou"},
     {name="Samuel Ortion"}
 ]
-description = "A dynamic scanpy plotting alternative"
+description = "A dynamic scanpy plotting alternative based on plotly"
 readme = "README.md"
 license = "BSD-3-clause"
 keywords = ["single cell", "visualization"]
 [project.urls]
 Repository = "https://github.com/UncleSamulus/geniomhe-oop-sc"
-# Documentation = "https://UncleSamulus.github.io/geniomhe-oop-sc"
+Documentation = "https://UncleSamulus.github.io/geniomhe-oop-sc"
 [build-system]
 requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
