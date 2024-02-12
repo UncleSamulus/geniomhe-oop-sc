@@ -1,0 +1,13 @@
+---
+abstract: "A student project aiming at reimplementing scanpy core plotting functions in plotly"
+authors:
+  - affiliation: "Université Paris-Saclay"
+    family-names: Saïbou
+    given-names: Océane
+  - affiliation: "Université Paris-Saclay"
+    family-names: Ortion
+    given-names: Samuel
+cff-version: "1.1.0"
+message: "If you ever find this little project useful, please cite"
+title: "oopsc - scanpy with plotly"
+...
