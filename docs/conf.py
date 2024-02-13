@@ -133,6 +133,11 @@ html_show_sphinx = False
 # html_logo = "_static/img/Scanpy_Logo_BrightFG.svg"
 html_title = "oopsc - scanpy plotly"
 
+html_js_files = [
+    "require.min.js",  # Add to your _static
+    "custom.js",
+]
+
 
 def setup(app: Sphinx):
     """App setup hook."""
