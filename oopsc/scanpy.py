@@ -1,6 +1,6 @@
 """Add pli to scanpy"""
 
-from .pli import Plotter
+from . import pli
 
 def patch():
     try:
@@ -8,7 +8,6 @@ def patch():
     except:
         raise ImportError("Could not patch dynamic plotting API into scanpy")
 
-    pli = Plotter()
     setattr(sc, 'pli', pli)
 
 patch()
