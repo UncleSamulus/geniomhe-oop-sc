@@ -1,5 +1,5 @@
 [project]
-name = "scanpy-plotly"
+name = "oopsc"
 dynamic = ["version"]
 authors = [
     {name="Oceane Saïbou"},
@@ -23,7 +23,8 @@ source = "vcs"
 [tool.hatch.build.hooks.vcs]
 version-file = "oopsc/_version.py"
 dependencies = [
-    "scanpy"
+    "scanpy",
+    "plotly"
 ]
 [project.optional-dependencies]
 test = [
@@ -43,7 +44,8 @@ docs = [
     "sphinxext-opengraph", # for nice cards when sharing on social
     "sphinx-copybutton",
     "nbsphinx>=0.9",
-    "ipython>=7.20",  # for nbsphinx code highlighting
+    "ipython>=7.20",  # for nbsphinx code highlighting,
+    "nbclean"
 ]
 dev = [
     "pre-commit"
