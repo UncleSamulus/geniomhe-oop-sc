@@ -36,7 +36,9 @@ jobs:
       #     restore-keys: |
       #       ${{ runner.os }}-pip-
       - name: Install dependencies
-        run: pip install -e '.[docs]'
+        run: |
+          pip install --upgrade pip
+          pip install -e '.[docs]'
       - name: Build sphinx html
         run: cd docs && make html
       - name: Upload artifact
