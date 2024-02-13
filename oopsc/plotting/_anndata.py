@@ -148,9 +148,15 @@ def violin(
     for i, variable in enumerate(pd.unique(obs_tidy["variable"])):
         col = i % ncols + 1
         row = i // ncols + 1
+        x = obs_tidy["variable"][obs_tidy["variable"] == variable]
+        y = obs_tidy["value"][obs_tidy["variable"] == variable]
         fig.add_trace(
-            go.Violin(x=obs_tidy["variable"][obs_tidy["variable"] == variable],
-                      y=obs_tidy["value"][obs_tidy["variable"] == variable],
-                      pointpos=0,
-                    ), col=col, row=row,)
+            go.Violin(x=x, y=y, jitter=jitter, points="all"), col=col, row=row
+        )
+        fig.update_layout(
+            showlegend=False
+        )
+    fig.update_traces(
+        
+    )
     return fig

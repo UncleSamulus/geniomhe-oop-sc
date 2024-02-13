@@ -45,7 +45,7 @@ docs = [
     "sphinx-copybutton",
     "nbsphinx>=0.9",
     "ipython>=7.20",  # for nbsphinx code highlighting,
-    "nbclean"
+    "nbclean",
 ]
 dev = [
     "pre-commit"

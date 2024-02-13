@@ -71,6 +71,6 @@ def highest_expr_genes(
         title="Highest expressed genes",
         xaxis_title="% of total counts",
         yaxis_title="Genes",
+        showlegend=False
     )
-
     return fig
