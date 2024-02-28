@@ -12,7 +12,9 @@ A GENIOMHE Master 1 Python project
 ```bash
 git clone git@github.com:UncleSamulus/geniomhe-oop-sc.git oopsc
 cd oopsc
-pip install .
+python3 -m venv .venv/oopsc
+source .venv/oopsc/bin/activate
+pip install -e .
 ```
 
 ### Usage

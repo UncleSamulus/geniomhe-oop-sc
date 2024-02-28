@@ -1,4 +1,6 @@
-from typing import Sequence, Literal
+from __future__ import annotations
+
+from typing import Sequence, Literal, Collection, Iterable, Union, Tuple, Dict, Any
 from collections import OrderedDict
 
 import pandas as pd
@@ -148,9 +150,57 @@ def violin(
     for i, variable in enumerate(pd.unique(obs_tidy["variable"])):
         col = i % ncols + 1
         row = i // ncols + 1
+        x = obs_tidy["variable"][obs_tidy["variable"] == variable]
+        y = obs_tidy["value"][obs_tidy["variable"] == variable]
         fig.add_trace(
-            go.Violin(x=obs_tidy["variable"][obs_tidy["variable"] == variable],
-                      y=obs_tidy["value"][obs_tidy["variable"] == variable],
-                      pointpos=0,
-                    ), col=col, row=row,)
+            go.Violin(x=x, y=y, jitter=jitter, points="all"), col=col, row=row
+        )
+        fig.update_layout(
+            showlegend=False
+        )
+    fig.update_traces(
+        
+    )
     return fig
+
+
+def scatter(
+    adata: AnnData,
+    x: str | None = None,
+    y: str | None = None,
+    *,
+    color: str | Collection[str] | None = None,
+    use_raw: bool | None = None,
+    sort_order: bool = True,
+    # basis:  | None = None,
+    groups: str | Iterable[str] | None = None,
+    components: str | Collection[str] | None = None,
+    projection: Literal["2d", "3d"] = "2d",
+    **kwds,
+) -> go.Figure:
+    """\
+    Scatter plot along observations or variables axes.
+
+    Parameters
+    ----------
+    adata
+        Annotated data matrix.
+    x
+        x coordinate.
+    y
+        y coordinate.
+    color
+        Keys for annotations of observations/cells or variables/genes.
+        or a hex color specification
+    use_raw
+        Whether to use `raw` attribute of `adata`. Defaults to `True` if `.raw` is present.
+    layers
+        Use the `layers` attribute of `adata` if present: specify the layer for `x` , `y` and `color`. If `layers` is a string, then it is expanded to `(layers, layers, layers)`.
+    basis
+        String that denotes a plotting tool that computed coordinates.
+    
+    Returns
+    -------
+    A :class:`~plotly.graph_objects.Figure` object.
+    """ 
+    

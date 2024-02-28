@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import sys
 from pathlib import Path
 
@@ -93,31 +95,32 @@ typehints_defaults = "braces"
 pygments_style = "default"
 pygments_dark_style = "native"
 
-# intersphinx_mapping = dict(
-#     anndata=("https://anndata.readthedocs.io/en/stable/", None),
-#     bbknn=("https://bbknn.readthedocs.io/en/latest/", None),
-#     cuml=("https://docs.rapids.ai/api/cuml/stable/", None),
-#     cycler=("https://matplotlib.org/cycler/", None),
-#     dask=("https://docs.dask.org/en/stable/", None),
-#     dask_ml=("https://ml.dask.org/", None),
-#     h5py=("https://docs.h5py.org/en/stable/", None),
-#     ipython=("https://ipython.readthedocs.io/en/stable/", None),
-#     igraph=("https://python.igraph.org/en/stable/api/", None),
-#     leidenalg=("https://leidenalg.readthedocs.io/en/latest/", None),
-#     louvain=("https://louvain-igraph.readthedocs.io/en/latest/", None),
-#     matplotlib=("https://matplotlib.org/stable/", None),
-#     networkx=("https://networkx.org/documentation/stable/", None),
-#     numpy=("https://numpy.org/doc/stable/", None),
-#     pandas=("https://pandas.pydata.org/pandas-docs/stable/", None),
-#     pynndescent=("https://pynndescent.readthedocs.io/en/latest/", None),
-#     pytest=("https://docs.pytest.org/en/latest/", None),
-#     python=("https://docs.python.org/3", None),
-#     rapids_singlecell=("https://rapids-singlecell.readthedocs.io/en/latest/", None),
-#     scipy=("https://docs.scipy.org/doc/scipy/", None),
-#     seaborn=("https://seaborn.pydata.org/", None),
-#     sklearn=("https://scikit-learn.org/stable/", None),
-#     tutorials=("https://scanpy-tutorials.readthedocs.io/en/latest/", None),
-# )
+intersphinx_mapping = dict(
+    anndata=("https://anndata.readthedocs.io/en/stable/", None),
+    bbknn=("https://bbknn.readthedocs.io/en/latest/", None),
+    cuml=("https://docs.rapids.ai/api/cuml/stable/", None),
+    cycler=("https://matplotlib.org/cycler/", None),
+    dask=("https://docs.dask.org/en/stable/", None),
+    dask_ml=("https://ml.dask.org/", None),
+    h5py=("https://docs.h5py.org/en/stable/", None),
+    ipython=("https://ipython.readthedocs.io/en/stable/", None),
+    igraph=("https://python.igraph.org/en/stable/api/", None),
+    leidenalg=("https://leidenalg.readthedocs.io/en/latest/", None),
+    louvain=("https://louvain-igraph.readthedocs.io/en/latest/", None),
+    matplotlib=("https://matplotlib.org/stable/", None),
+    networkx=("https://networkx.org/documentation/stable/", None),
+    numpy=("https://numpy.org/doc/stable/", None),
+    pandas=("https://pandas.pydata.org/pandas-docs/stable/", None),
+    pynndescent=("https://pynndescent.readthedocs.io/en/latest/", None),
+    pytest=("https://docs.pytest.org/en/latest/", None),
+    python=("https://docs.python.org/3", None),
+    rapids_singlecell=("https://rapids-singlecell.readthedocs.io/en/latest/", None),
+    scipy=("https://docs.scipy.org/doc/scipy/", None),
+    seaborn=("https://seaborn.pydata.org/", None),
+    sklearn=("https://scikit-learn.org/stable/", None),
+    tutorials=("https://scanpy-tutorials.readthedocs.io/en/latest/", None),
+    # plotly=("https://plotly.com/python", None)
+)
 
 
 # -- Options for HTML output ----------------------------------------------

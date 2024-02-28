@@ -5,6 +5,12 @@ authors = [
     {name="Oceane Saïbou"},
     {name="Samuel Ortion"}
 ]
+dependencies = [
+    "scanpy",
+    "plotly",
+    "pandas",
+    "numpy",
+]
 description = "A dynamic scanpy plotting alternative based on plotly"
 readme = "README.md"
 license = "BSD-3-clause"
@@ -22,10 +28,7 @@ exclude = ["oopsc/tests"]
 source = "vcs"
 [tool.hatch.build.hooks.vcs]
 version-file = "oopsc/_version.py"
-dependencies = [
-    "scanpy",
-    "plotly"
-]
+
 [project.optional-dependencies]
 test = [
     "pytest"
@@ -45,7 +48,7 @@ docs = [
     "sphinx-copybutton",
     "nbsphinx>=0.9",
     "ipython>=7.20",  # for nbsphinx code highlighting,
-    "nbclean"
+    "nbclean",
 ]
 dev = [
     "pre-commit"

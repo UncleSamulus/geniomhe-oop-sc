@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import numpy as np
 import pandas as pd
 
@@ -71,6 +73,6 @@ def highest_expr_genes(
         title="Highest expressed genes",
         xaxis_title="% of total counts",
         yaxis_title="Genes",
+        showlegend=False
     )
-
     return fig
