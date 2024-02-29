@@ -1,5 +1,5 @@
-# oopsc
-Reimplementation of core scanpy plot with Plotly powered visualization.
+# `oopsc`
+Reimplementation of core `scanpy` plot with `plotly` powered visualization.
 
 ---
 
@@ -23,19 +23,15 @@ pip install -e .
 import oopsc.scanpy
 ```
 
-The above import register a `pli` object in scanpy, as an alternative to a limited subset of scanpy plotting utilities.
+The above import registers a `pli` object in `scanpy`, as an alternative to `scanpy.pl` for a limited subset of `scanpy` plotting utilities.
 
 
 To use the implemented dynamical plotting function, you could use:
 ```python
 import scanpy as sc
+# Then for example
 sc.pli.violin(adata, [...]) 
 ```
-
-## Milestones
-
-- [ ] Implement scanpy violin plot
-
 
 ## Team members
 
