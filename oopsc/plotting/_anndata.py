@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Sequence, Literal, Collection, Iterable, Union, Tuple, Dict, Any
 from collections import OrderedDict
 
