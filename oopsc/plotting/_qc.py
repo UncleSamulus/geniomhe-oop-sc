@@ -80,8 +80,6 @@ def highest_expr_genes(
     )
     return fig
 
-###########  RANK GENES GROUPS VIOLIN ###########
-
 def rank_genes_groups_violin(
     adata: AnnData,
     groups: Sequence[str] | None = None,
@@ -169,14 +167,14 @@ def rank_genes_groups_violin(
             y= subset_df["value"]
             side = 'negative' if index % 2 == 0 else 'positive'  # Alternate between positive and negative sides
             line_color = 'blue' if side == 'negative' else 'red'
-        
-            fig.add_trace(go.Violin(x=x, 
+            trace = go.Violin(x=x, 
                                     y=y, 
                                     legendgroup=gene_names, 
                                     scalegroup=gene_names, 
                                     name=gene_names,
                                     side=side,
-                                    line_color=line_color))
+                                    line_color=line_color)
+            fig.add_trace(trace)
         
     fig.update_traces(meanline_visible=True)
     fig.update_layout(violingap=0, violinmode='overlay')
