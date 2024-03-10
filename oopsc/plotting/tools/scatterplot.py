@@ -102,7 +102,7 @@ def embedding(
     return_fig: bool | None = None,
     marker: str | Sequence[str] = ".",
     **kwargs,
-) -> Figure | Axes | list[Axes] | None:
+) -> go.Figure | None:
     """\
     Scatter plot for user specified embedding basis (e.g. umap, pca, etc)
 
@@ -110,14 +110,14 @@ def embedding(
     ----------
     basis
         Name of the `obsm` basis to use.
-    {adata_color_etc}
-    {edges_arrows}
-    {scatter_bulk}
-    {show_save_ax}
+    # {adata_color_etc}
+    # {edges_arrows}
+    # {scatter_bulk}
+    # {show_save_ax}
 
     Returns
     -------
-    If `show==False` a :class:`~matplotlib.axes.Axes` or a list of it.
+    a :class:`~plotly.graph_objects.Figure`.
     """
     # scanpy
     #####################
@@ -334,14 +334,17 @@ def embedding(
                 x=coords[:, 0],
                 y=coords[:, 1],
                 z=coords[:, 2],
-                color=color_vector,
+                color=color_source_vector,
             )
         else:
             fig = px.scatter(
                 x=coords[:, 0],
                 y=coords[:, 1],
-                color=color_vector,
+                color=color_source_vector,
             )
+        # Remove color from legend
+        fig.update_traces(showlegend=False)
+        # Add annotations to hover data based on color_source_vector
         # else:
         #     scatter = (
         #         partial(ax.scatter, s=size, plotnonfinite=True)
