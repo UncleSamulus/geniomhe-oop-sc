@@ -170,21 +170,21 @@ def rank_genes_groups_violin(
         df_tidy_nonan = df_tidy[~df_tidy["hue"].isnull()] # get rid of NaN
         hue_order = [group_name, reference]
         for index, value in enumerate(df_tidy_nonan["hue"].unique()):
-            print(index)
             subset_df = df_tidy_nonan[df_tidy_nonan["hue"] == value]
             x = subset_df["variable"]
             y = subset_df["value"]
             side = (
                 "negative" if index % 2 == 0 else "positive"
             )  # Alternate between positive and negative sides
-            line_color = "blue" if side == "negative" else "red"
-
+            color_options = ["blue", "red", "green", "purple", "yellow", "orange", "pink"]
+            line_color = color_options[index % len(color_options)]
+            print(gene_names)
             trace = go.Violin(
                 x=x,
                 y=y,
                 legendgroup=gene_names,
                 scalegroup=gene_names,
-                name=gene_names,
+                name=f"violin_{index}",
                 side=side,
                 line_color=line_color,
             )
@@ -198,7 +198,7 @@ def rank_genes_groups_violin(
         {
             "label": f"Side negative ({color.capitalize()})",
             "method": "update",
-            "args": [{"fig.data[0].line.color": color, "fig.data[0].fillcolor": color}],
+            "args": [{"line.color": color, "fillcolor": color}, [0]]
         }
         for color in color_options
     ]
@@ -207,7 +207,7 @@ def rank_genes_groups_violin(
         {
             "label": f"Side positive ({color.capitalize()})",
             "method": "update",
-            "args": [{"fig.data[1].line.color": color, "fig.data[1].fillcolor": color}],
+            "args": [{"data[1].line.color": [color], "data[1].fillcolor": [color]}],
         }
         for color in color_options
     ]
@@ -215,7 +215,14 @@ def rank_genes_groups_violin(
     fig.update_layout(
         updatemenus=[
             {
-                "buttons": color_dropdown_options_negative,
+                "buttons": [
+                    {
+                        "label": f"Side negative ({color.capitalize()})",
+                        "method": "restyle",
+                        "args": ["line.color", color, [i for i in range(0, len(traces), 2)]]
+                    }
+                    for color in color_options
+                ],
                 "direction": "down",
                 "showactive": True,
                 "x": 0,
@@ -224,7 +231,14 @@ def rank_genes_groups_violin(
                 "yanchor": "top",
             },
             {
-                "buttons": color_dropdown_options_positive,
+                "buttons": [
+                    {
+                        "label": f"Side positive ({color.capitalize()})",
+                        "method": "restyle",
+                        "args": ["line.color", color, [i for i in range(1, len(traces), 2)]]
+                    }
+                    for color in color_options
+                ],
                 "direction": "down",
                 "showactive": True,
                 "x": 0.65,
