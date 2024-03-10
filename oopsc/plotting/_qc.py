@@ -98,6 +98,7 @@ def rank_genes_groups_violin(
     size: int = 1,
     show: bool | None = None,
     save: bool | None = None,
+
  ):
     """\
     Plot ranking of genes for all tested comparisons.
@@ -142,6 +143,9 @@ def rank_genes_groups_violin(
     if isinstance(groups_names, str):
         groups_names = [groups_names]
     fig = go.Figure()
+
+    traces = []
+    # Use the 'side' variable to define the color in the color in the function add_trace
     for group_name in groups_names:
         if gene_names is None:
             _gene_names = adata.uns[key]["names"][group_name][:n_genes]
@@ -169,15 +173,52 @@ def rank_genes_groups_violin(
             y= subset_df["value"]
             side = 'negative' if index % 2 == 0 else 'positive'  # Alternate between positive and negative sides
             line_color = 'blue' if side == 'negative' else 'red'
-        
-            fig.add_trace(go.Violin(x=x, 
-                                    y=y, 
-                                    legendgroup=gene_names, 
-                                    scalegroup=gene_names, 
-                                    name=gene_names,
-                                    side=side,
-                                    line_color=line_color))
-        
+            
+            trace = go.Violin(x=x, 
+                              y=y, 
+                              legendgroup=gene_names, 
+                              scalegroup=gene_names, 
+                              name=gene_names,
+                              side=side,
+                              line_color=line_color)
+            
+            traces.append(trace) 
+
+    fig.add_traces(traces)
+
+    color_options = ['blue', 'red', 'green', 'purple', 'yellow', 'orange', 'pink']
+
+    # Create a menu to choose the color for the negative side
+    color_dropdown_options_negative = [{'label': f'Side negative ({color.capitalize()})',
+                                     'method': 'update',
+                                     'args': [{'fig.data[0].line.color' : color,
+                                               'fig.data[0].fillcolor' : color}]}
+                                    for color in color_options]
+
+    color_dropdown_options_positive = [{'label': f'Side positive ({color.capitalize()})',
+                                     'method': 'update',
+                                     'args': [{'fig.data[1].line.color' : color,
+                                               'fig.data[1].fillcolor' : color}]}
+                                    for color in color_options]
+    # Add the menus to the interface
+    fig.update_layout(updatemenus=[
+        {'buttons': color_dropdown_options_negative,
+         'direction': 'down',
+         'showactive': True,
+         'x': 0,
+         'xanchor': 'left',
+         'y': 1.15,
+         'yanchor': 'top'},
+        {'buttons': color_dropdown_options_positive,
+         'direction': 'down',
+         'showactive': True,
+         'x': 0.65,
+         'xanchor': 'left',
+         'y': 1.15,
+         'yanchor': 'top'}
+    ])  
     fig.update_traces(meanline_visible=True)
-    fig.update_layout(violingap=0, violinmode='overlay')
+    fig.update_layout(title_text="Gene expression distribution for each condition tested",
+                      violingap=0, violingroupgap=0, violinmode='overlay')
+    print(fig.data[0].line.color)
     return fig
