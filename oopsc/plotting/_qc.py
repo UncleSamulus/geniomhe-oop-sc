@@ -193,27 +193,10 @@ def rank_genes_groups_violin(
     fig.add_traces(traces)
     color_options = ["blue", "red", "green", "purple", "yellow", "orange", "pink"]
 
-    # Create a menu to choose the color for the negative side
-    color_dropdown_options_negative = [
-        {
-            "label": f"Side negative ({color.capitalize()})",
-            "method": "update",
-            "args": [{"line.color": color, "fillcolor": color}, [0]]
-        }
-        for color in color_options
-    ]
-
-    color_dropdown_options_positive = [
-        {
-            "label": f"Side positive ({color.capitalize()})",
-            "method": "update",
-            "args": [{"data[1].line.color": [color], "data[1].fillcolor": [color]}],
-        }
-        for color in color_options
-    ]
     # Add the menus to the interface
     fig.update_layout(
         updatemenus=[
+            # Menu for the negative side
             {
                 "buttons": [
                     {
@@ -230,6 +213,7 @@ def rank_genes_groups_violin(
                 "y": 1.15,
                 "yanchor": "top",
             },
+            # Menu for the positive side
             {
                 "buttons": [
                     {
