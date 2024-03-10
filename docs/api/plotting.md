@@ -17,7 +17,6 @@
     :toctree: generated/
 
     pli.violin
-    pli.scatter
 
 ```
 

@@ -119,7 +119,7 @@ def violin(
                     f"The column `adata.obs[{groupby!r}]` needs to be categorical, "
                     f"but is of dtype {adata.obs[groupby].dtype}."
                 )
-            sc._utils.add_colors_for_categorical_sample_annotation(adata, groupby)
+            sc.plotting._utils.add_colors_for_categorical_sample_annotation(adata, groupby)
             kwds["palette"] = dict(
                 zip(obs_df[groupby].cat.categories, adata.uns[f"{groupby}_colors"])
             )
@@ -133,13 +133,18 @@ def violin(
         obs_tidy = obs_df
         x = groupby
         ys = keys
-        raise NotImplementedError()
 
     # oopsc contribution
     # Create a multi-panel figure
     if ncols is None:
-        ncols = obs_tidy["variable"].unique().shape[0]
-    nrows=obs_tidy["variable"].unique().shape[0] // ncols
+        if groupby:
+            ncols = len(ys) 
+        else:
+            ncols = len(obs_tidy["variable"].unique())
+    if groupby:
+        nrows = len(ys) // ncols
+    else:
+        nrows=obs_tidy["variable"].unique().shape[0] // ncols
     nrows=nrows if nrows > 0 else 1
     fig = make_subplots(
         cols=ncols,
@@ -147,60 +152,34 @@ def violin(
         shared_xaxes=False,
         shared_yaxes=False,
     )
-    for i, variable in enumerate(pd.unique(obs_tidy["variable"])):
-        col = i % ncols + 1
-        row = i // ncols + 1
-        x = obs_tidy["variable"][obs_tidy["variable"] == variable]
-        y = obs_tidy["value"][obs_tidy["variable"] == variable]
-        fig.add_trace(
-            go.Violin(x=x, y=y, jitter=jitter, points="all"), col=col, row=row
-        )
-        fig.update_layout(
-            showlegend=False
-        )
-    fig.update_traces(
-        
-    )
+    if groupby is None:
+        for i, variable in enumerate(pd.unique(obs_tidy[x])):
+            col = i % ncols + 1
+            row = i // ncols + 1
+            x_df = obs_tidy["variable"][obs_tidy[x] == variable]
+            y_df = obs_tidy["value"][obs_tidy[x] == variable]
+            # 
+            fig.add_trace(
+                go.Violin(x=x_df, y=y_df, jitter=jitter), col=col, row=row, 
+            )
+
+            fig.update_layout(
+                showlegend=False
+                )
+    else:
+        for i, y in enumerate(ys):
+            col = i % ncols + 1
+            row = i // ncols + 1
+            for j, variable in enumerate(pd.unique(obs_tidy[x])):
+                x_df = obs_tidy[x][obs_tidy[x] == variable]
+                y_df = obs_tidy[y][obs_tidy[x] == variable]
+                # 
+                fig.add_trace(
+                    go.Violin(x=x_df, y=y_df, jitter=jitter), col=col, row=row, 
+                )
+                fig.update_layout(
+                    showlegend=False
+                )
+                fig.update_yaxes(title_text=y, col=col, row=row)
+            fig.update_xaxes(title_text=groupby, col=col, row=row)
     return fig
-
-
-def scatter(
-    adata: AnnData,
-    x: str | None = None,
-    y: str | None = None,
-    *,
-    color: str | Collection[str] | None = None,
-    use_raw: bool | None = None,
-    sort_order: bool = True,
-    # basis:  | None = None,
-    groups: str | Iterable[str] | None = None,
-    components: str | Collection[str] | None = None,
-    projection: Literal["2d", "3d"] = "2d",
-    **kwds,
-) -> go.Figure:
-    """\
-    Scatter plot along observations or variables axes.
-
-    Parameters
-    ----------
-    adata
-        Annotated data matrix.
-    x
-        x coordinate.
-    y
-        y coordinate.
-    color
-        Keys for annotations of observations/cells or variables/genes.
-        or a hex color specification
-    use_raw
-        Whether to use `raw` attribute of `adata`. Defaults to `True` if `.raw` is present.
-    layers
-        Use the `layers` attribute of `adata` if present: specify the layer for `x` , `y` and `color`. If `layers` is a string, then it is expanded to `(layers, layers, layers)`.
-    basis
-        String that denotes a plotting tool that computed coordinates.
-    
-    Returns
-    -------
-    A :class:`~plotly.graph_objects.Figure` object.
-    """ 
-    
