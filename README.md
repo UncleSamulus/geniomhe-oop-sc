@@ -12,8 +12,10 @@ A GENIOMHE Master 1 Python project
 ```bash
 git clone git@github.com:UncleSamulus/geniomhe-oop-sc.git oopsc
 cd oopsc
+# It is recommended to use a virtual environment, a python-venv for instance
 python3 -m venv .venv/oopsc
 source .venv/oopsc/bin/activate
+# To install oopsc and its dependencies
 pip install -e .
 ```
 

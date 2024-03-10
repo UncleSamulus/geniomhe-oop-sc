@@ -24,7 +24,6 @@ def highest_expr_genes(
     log: bool = False,
     **kwds,
 ):
-    
     """\
     Fraction of counts assigned to each gene over all cells.
     
@@ -76,9 +75,10 @@ def highest_expr_genes(
         title="Highest expressed genes",
         xaxis_title="% of total counts",
         yaxis_title="Genes",
-        showlegend=False
+        showlegend=False,
     )
     return fig
+
 
 def rank_genes_groups_violin(
     adata: AnnData,
@@ -96,7 +96,7 @@ def rank_genes_groups_violin(
     size: int = 1,
     show: bool | None = None,
     save: bool | None = None,
- ):
+):
     """\
     Plot ranking of genes for all tested comparisons.
 
@@ -139,7 +139,11 @@ def rank_genes_groups_violin(
     groups_names = adata.uns[key]["names"].dtype.names if groups is None else groups
     if isinstance(groups_names, str):
         groups_names = [groups_names]
+
     fig = go.Figure()
+
+    traces = []
+    # Use the 'side' variable to define the color in the color in the function add_trace
     for group_name in groups_names:
         if gene_names is None:
             _gene_names = adata.uns[key]["names"][group_name][:n_genes]
@@ -147,7 +151,9 @@ def rank_genes_groups_violin(
             _gene_names = gene_names
         if isinstance(_gene_names, np.ndarray):
             _gene_names = _gene_names.tolist()
-        df = sc.get.obs_df(adata, _gene_names, use_raw=use_raw, gene_symbols=gene_symbols)
+        df = sc.get.obs_df(
+            adata, _gene_names, use_raw=use_raw, gene_symbols=gene_symbols
+        )
         new_gene_names = df.columns
         df["hue"] = adata.obs[groups_key].astype(str).values
         if reference == "rest":
@@ -157,25 +163,76 @@ def rank_genes_groups_violin(
         df["hue"] = df["hue"].astype("category")
         df_tidy = pd.melt(df, id_vars="hue", value_vars=new_gene_names)
 
-        #oopsc contribution
-        df_tidy2 = df_tidy[(df_tidy["hue"]=='0')|(df_tidy["hue"]=='1')] # Get rid of NaN 
-        
+        # oopsc contribution
+        df_tidy_nonan = df_tidy[~df_tidy["hue"].isnull()] # get rid of NaN
         hue_order = [group_name, reference]
-        for index, value in enumerate(df_tidy2['hue'].unique()):
-            subset_df=df_tidy2[df_tidy2["hue"]==value]
-            x= subset_df["variable"]
-            y= subset_df["value"]
-            side = 'negative' if index % 2 == 0 else 'positive'  # Alternate between positive and negative sides
-            line_color = 'blue' if side == 'negative' else 'red'
-            trace = go.Violin(x=x, 
-                                    y=y, 
-                                    legendgroup=gene_names, 
-                                    scalegroup=gene_names, 
-                                    name=gene_names,
-                                    side=side,
-                                    line_color=line_color)
-            fig.add_trace(trace)
-        
+        for index, value in enumerate(df_tidy_nonan["hue"].unique()):
+            subset_df = df_tidy_nonan[df_tidy_nonan["hue"] == value]
+            x = subset_df["variable"]
+            y = subset_df["value"]
+            side = (
+                "negative" if index % 2 == 0 else "positive"
+            )  # Alternate between positive and negative sides
+            color_options = ["blue", "red", "green", "purple", "yellow", "orange", "pink"]
+            line_color = color_options[index % len(color_options)]
+            trace = go.Violin(
+                x=x,
+                y=y,
+                legendgroup=gene_names,
+                scalegroup=gene_names,
+                name=gene_names,
+                side=side,
+                line_color=line_color,
+            )
+
+            traces.append(trace)
+    fig.add_traces(traces)
+    color_options = ["blue", "red", "green", "purple", "yellow", "orange", "pink"]
+
+    # Add the menus to the interface
+    fig.update_layout(
+        updatemenus=[
+            # Menu for the negative side
+            {
+                "buttons": [
+                    {
+                        "label": f"Side negative ({color.capitalize()})",
+                        "method": "restyle",
+                        "args": ["line.color", color, [i for i in range(0, len(traces), 2)]]
+                    }
+                    for color in color_options
+                ],
+                "direction": "down",
+                "showactive": True,
+                "x": 0,
+                "xanchor": "left",
+                "y": 1.15,
+                "yanchor": "top",
+            },
+            # Menu for the positive side
+            {
+                "buttons": [
+                    {
+                        "label": f"Side positive ({color.capitalize()})",
+                        "method": "restyle",
+                        "args": ["line.color", color, [i for i in range(1, len(traces), 2)]]
+                    }
+                    for color in color_options
+                ],
+                "direction": "down",
+                "showactive": True,
+                "x": 0.65,
+                "xanchor": "left",
+                "y": 1.15,
+                "yanchor": "top",
+            },
+        ]
+    )
     fig.update_traces(meanline_visible=True)
-    fig.update_layout(violingap=0, violinmode='overlay')
+    fig.update_layout(
+        title_text="Gene expression distribution for each condition tested",
+        violingap=0,
+        violingroupgap=0,
+        violinmode="overlay",
+    )
     return fig
