@@ -35,6 +35,21 @@ import scanpy as sc
 sc.pli.violin(adata, [...]) 
 ```
 
+
+## Showcase
+
+We develop a dashboard interface with dash.
+
+First, install `dash`
+```bash
+pip install -e .'showcase'
+```
+
+Then, run the dash application:
+```bash
+python3 showcase/main.py
+```
+
 ## Team members
 
 - Océane Saïbou
