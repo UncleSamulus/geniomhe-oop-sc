@@ -53,3 +53,12 @@ docs = [
 dev = [
     "pre-commit"
 ]
+showcase = [
+    "dash"
+]
+all = [
+    "oopsc[docs]",
+    "oopsc[showcase]",
+    "oopsc[dev]",
+    "oopsc[test]",
+]
