@@ -56,3 +56,9 @@ dev = [
 showcase = [
     "dash"
 ]
+all = [
+    "oopsc[docs]",
+    "oopsc[showcase]",
+    "oopsc[dev]",
+    "oopsc[test]",
+]
