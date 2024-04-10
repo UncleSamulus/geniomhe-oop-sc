@@ -10,7 +10,7 @@ A GENIOMHE Master 1 Python project
 ### Installation
 
 ```bash
-git clone git@github.com:UncleSamulus/geniomhe-oop-sc.git oopsc
+git clone git@github.com:samuelortion/geniomhe-oop-sc.git oopsc
 cd oopsc
 # It is recommended to use a virtual environment, a python-venv for instance
 python3 -m venv .venv/oopsc
