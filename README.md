@@ -10,11 +10,9 @@ A GENIOMHE Master 1 Python project
 ### Installation
 
 ```bash
-git clone git@github.com:samuelortion/geniomhe-oop-sc.git oopsc
+# First clone the repository
+git clone https://github.com/samuelortion/geniomhe-oop-sc.git oopsc
 cd oopsc
-# It is recommended to use a virtual environment, a python-venv for instance
-python3 -m venv .venv/oopsc
-source .venv/oopsc/bin/activate
 # To install oopsc and its dependencies
 pip install -e .
 ```
@@ -34,7 +32,6 @@ import scanpy as sc
 # Then for example
 sc.pli.violin(adata, [...]) 
 ```
-
 
 ## Showcase
 
